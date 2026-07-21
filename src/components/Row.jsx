@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import tmdbAxiosInstance from '../tmdbAxiosInstance'
 import './Row.css'
 function Row({title,fetchUrl}) {
 const [allMovies,setAllMovies]=useState([])
-console.log(fetchUrl);
 const base_url="https://image.tmdb.org/t/p/original/"
 
-const fetchData=async()=>{
+const fetchData=useCallback(async()=>{
    const {data}= await tmdbAxiosInstance.get(fetchUrl)
    setAllMovies(data.results)
-}
-console.log(allMovies);
+},[fetchUrl])
+
 useEffect(()=>{
     fetchData()
-},[fetchUrl])
+},[fetchData])
 
   return (
     <div className='row'>
@@ -23,10 +22,7 @@ useEffect(()=>{
             {
 
                 allMovies.map((item,index)=>(
-                    <>
-                    
-                    
-                    <div className='ba'>
+                    <div className='ba' key={item.id || index}>
                        <div className='iim'> <img className='movie' src={`${base_url}/${item.poster_path}`} alt="" />
                         
                             <div className='back'>
@@ -52,7 +48,6 @@ useEffect(()=>{
                                 </div>
                                 </div>
                         </div>
-                    </>
                 ))
             }
            
