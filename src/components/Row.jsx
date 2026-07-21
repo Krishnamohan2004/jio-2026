@@ -10,9 +10,10 @@ const fetchData=useCallback(async()=>{
    setAllMovies(data.results)
 },[fetchUrl])
 
+// eslint-disable-next-line react-hooks/exhaustive-deps
 useEffect(()=>{
     fetchData()
-},[fetchData])
+},[fetchData, fetchUrl])
 
   return (
     <div className='row'>
